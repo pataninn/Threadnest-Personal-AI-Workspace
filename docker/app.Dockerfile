@@ -1,4 +1,4 @@
-FROM node:22.23.4-bookworm-slim AS build
+FROM node:22.23.4-bookworm AS build
 
 ENV COREPACK_HOME=/tmp/corepack
 WORKDIR /app
@@ -24,6 +24,7 @@ FROM node:22.23.4-bookworm-slim AS runtime
 ENV NODE_ENV=production
 WORKDIR /app
 
+COPY --from=build /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
 RUN sed -i 's|http://deb.debian.org|https://deb.debian.org|g' /etc/apt/sources.list.d/debian.sources \
     && apt-get update && apt-get install -y --no-install-recommends python3 && rm -rf /var/lib/apt/lists/*
 RUN groupadd --gid 10001 pai && useradd --uid 10001 --gid 10001 --create-home --shell /usr/sbin/nologin pai
