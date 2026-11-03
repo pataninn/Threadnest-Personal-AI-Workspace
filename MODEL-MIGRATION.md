@@ -23,6 +23,12 @@ replacement. Requests are not automatically rerouted. See the
   token bound. Existing output limits, call limits and spending caps remain.
 - Existing stored model disclosures, approvals and usage records retain their
   original model IDs. New approvals must disclose the replacement model.
+- Apply [the operator migration](deploy/migrate-nebius-model.sql) while inference
+  is paused and active work has drained. It updates only enabled, unrevoked
+  Nebius policies pinned to the retiring model and increments their revisions.
+  Revoked policies and other providers remain unchanged. Server startup updates
+  the default for newly created scopes but deliberately does not replace existing
+  non-null policy routes, so changing environment variables alone is insufficient.
 - The replacement's vision capability does not add image/video support to
   Threadnest; this change retains the existing text and tool workflows.
 
