@@ -51,15 +51,44 @@ Pre-deployment validation:
 - Frontend unit and preview API tests passed; production frontend/backend build passed.
 - Hermes bridge: 93 tests passed and 4 platform/runtime tests skipped.
 - Deployment and Compose boundary checks: 34 passed.
+- PostgreSQL policy-migration test passed against temporary tables in the
+  maintenance database: active policy migration, revision increment,
+  idempotence, and preservation of revoked and unrelated policies.
 - Integration tests: 79 passed; 89 database-dependent tests skipped because a
   dedicated integration database was not configured. Production data was not
   used as a test database.
 - Live Nebius smoke: authenticated model availability, forced function calling,
   argument validation, tool-result round trip and final text response passed.
   The two synthetic calls used 408 input and 107 output tokens, approximately
-  USD 0.0002199 at the published rates.
+  USD 0.0002187 at the published rates.
 
-The AWS deployment receipt will be added after the host update.
+AWS deployment completed on **November 4, 2026 (Asia/Shanghai)**:
+
+- Runtime source commit: `df5a74cd87f4f9b85117177433ead182c5fd3696`.
+- Application image: `sha256:8e532d018abfa79941a2dd7c9523bd785f973303e8482f7a58618b9071563e60`.
+- Hermes image: `sha256:7904f876f861ef8d0cb3f53f4033b162c130eecbffc4a3e34944abf32ff42caa`.
+- Replaced the application and private Hermes bridge on the existing Sydney
+  deployment. All eight active policies now use the replacement. Inference was
+  paused for cutover and restored to its prior enabled state afterward.
+- With the owner's explicit approval, changed the daily inference cap from
+  **USD 0.10 to USD 0.35**; the **USD 0.50 lifetime cap** remains unchanged.
+- Public health/readiness, owner sign-in, authenticated workspace reads,
+  rejection of a request without CSRF, model-policy readiness and sign-out passed.
+- A fresh conversation titled **Nemotron 3.5 migration verification** completed
+  through the public API, Hermes, OpenShell and the replacement Nebius model,
+  and persisted the expected `THREADNEST_MIGRATION_OK` reply. Its ledger entry
+  settled with 2,252 input tokens, 71 output tokens and 740 credit units
+  (**USD 0.000740**); the test did not modify workspace files or tasks.
+- The build now uses HTTPS Debian repositories with a trusted certificate
+  bundle; TLS verification stays enabled. Restored the existing private mTLS
+  client-file group access after bridge setup so app UID/GID 10001 can read it.
+- Startup reconciliation found 16 empty directories belonging to demo identities
+  no longer present in the database. After rechecking ownership and emptiness
+  with the app stopped, moved them into private quarantine outside the managed
+  namespace. Nothing was deleted; normal reconciliation now reports ready.
+- Retained a private database/configuration backup and the previous application
+  image for rollback. AWS plan verification after deployment: **FREE / ACTIVE**.
+
 The AWS update uses the existing Sydney host, Compose project, persistent
 storage, private credentials and protected Cloudflare origin. No AWS resources
 or paid-plan features are added. Retain the previous image and private runtime
