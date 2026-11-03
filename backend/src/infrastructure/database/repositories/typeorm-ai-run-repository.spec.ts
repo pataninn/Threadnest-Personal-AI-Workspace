@@ -31,7 +31,7 @@ function manifest(): EgressManifest {
     manifestHash: MANIFEST_HASH,
     provider: 'NVIDIA hosted NIM',
     providerProfile: 'nvidia-hosted-nim',
-    model: 'nvidia/nemotron-3-super-120b-a12b',
+    model: 'nvidia/Nemotron-3.5-Super-VL',
     categories: ['Request'],
     files: [],
     requestBytes: 8,
@@ -286,7 +286,7 @@ describe('TypeOrmAiRunRepository', () => {
       .mockResolvedValueOnce([{ id: OWNER_ID }])
       .mockResolvedValueOnce([bound])
       .mockResolvedValueOnce([{ id: OWNER_ID }])
-      .mockResolvedValueOnce([{ policy_profile: 'workspace_in_scope_v1', provider_profile: 'nvidia-hosted-nim', model: 'nvidia/nemotron-3-super-120b-a12b', enabled: false, revoked_at: new Date(), revision: '5' }]);
+      .mockResolvedValueOnce([{ policy_profile: 'workspace_in_scope_v1', provider_profile: 'nvidia-hosted-nim', model: 'nvidia/Nemotron-3.5-Super-VL', enabled: false, revoked_at: new Date(), revision: '5' }]);
     const query = withProjectRemovalBarrier(businessQuery);
     const queryRunner = {
       connect: jest.fn().mockResolvedValue(undefined), startTransaction: jest.fn().mockResolvedValue(undefined), query,

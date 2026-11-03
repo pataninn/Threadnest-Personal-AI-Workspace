@@ -17,7 +17,7 @@ const CONVERSATION = '22222222-2222-4222-8222-222222222222';
 const TURN = '33333333-3333-4333-8333-333333333333';
 const PROJECT = '44444444-4444-4444-8444-444444444444';
 const PROVIDER = 'nvidia-hosted-nim';
-const MODEL = 'nvidia/nemotron-3-super-120b-a12b';
+const MODEL = 'nvidia/Nemotron-3.5-Super-VL';
 const NOW = new Date('2026-10-16T00:00:00.000Z');
 
 function makeTurn(

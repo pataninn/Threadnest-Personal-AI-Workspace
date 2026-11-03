@@ -53,7 +53,7 @@ function manifest(): EgressManifest {
     manifestHash: 'a'.repeat(64),
     provider: 'NVIDIA hosted NIM',
     providerProfile: 'nvidia-hosted-nim',
-    model: 'nvidia/nemotron-3-super-120b-a12b',
+    model: 'nvidia/Nemotron-3.5-Super-VL',
     categories: ['Request'],
     files: [],
     requestBytes: 7,
@@ -451,7 +451,7 @@ describe('StartAiRunUseCase', () => {
     const runtime = new FakeAgentRuntime();
     const events = new InMemoryRunEventPublisher();
     const permissions = new InMemoryProviderPermissionRepository();
-    const permission = await permissions.grant({ ownerId: OWNER_ID, projectId: PROJECT_ID, providerProfile: 'nvidia-hosted-nim', model: 'nvidia/nemotron-3-super-120b-a12b' });
+    const permission = await permissions.grant({ ownerId: OWNER_ID, projectId: PROJECT_ID, providerProfile: 'nvidia-hosted-nim', model: 'nvidia/Nemotron-3.5-Super-VL' });
     const run = await readyRun(repository);
     await repository.save({ ...run, providerPermissionId: permission.id });
 

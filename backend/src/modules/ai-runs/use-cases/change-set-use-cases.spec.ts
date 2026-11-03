@@ -273,7 +273,7 @@ class RunRepository implements IAiRunRepository {
     relativeRoot: 'project',
     storageKind: 'legacy',
     requestedPaths: [FILE_PATH],
-    manifest: { manifestHash: 'b'.repeat(64), provider: 'NVIDIA hosted NIM', providerProfile: 'nvidia-hosted-nim', model: 'nvidia/nemotron-3-super-120b-a12b', categories: ['Request'], files: [{ relativePath: FILE_PATH, sourceHash: ORIGINAL_HASH, sizeBytes: ORIGINAL.length }], requestBytes: 14, messageBytes: 0, messageCount: 0, messageHash: 'c'.repeat(64), byteEstimate: 14, tokenEstimate: 4, excludedItemCount: 0, omittedItemCount: 0, omissionSummary: 'No selected items were excluded or omitted.', bestEffortSecretDetection: true },
+    manifest: { manifestHash: 'b'.repeat(64), provider: 'NVIDIA hosted NIM', providerProfile: 'nvidia-hosted-nim', model: 'nvidia/Nemotron-3.5-Super-VL', categories: ['Request'], files: [{ relativePath: FILE_PATH, sourceHash: ORIGINAL_HASH, sizeBytes: ORIGINAL.length }], requestBytes: 14, messageBytes: 0, messageCount: 0, messageHash: 'c'.repeat(64), byteEstimate: 14, tokenEstimate: 4, excludedItemCount: 0, omittedItemCount: 0, omissionSummary: 'No selected items were excluded or omitted.', bestEffortSecretDetection: true },
     manifestInvalidated: false,
     status: 'succeeded',
     phase: 'terminal',

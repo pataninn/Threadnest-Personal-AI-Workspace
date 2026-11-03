@@ -15,7 +15,7 @@ describe('HermesAgentRuntime credit boundary', () => {
       { read } as unknown as ApprovedContextReader,
       {
         providerProfile: 'nvidia-hosted-nim',
-        model: 'nvidia/nemotron-3-super-120b-a12b',
+        model: 'nvidia/Nemotron-3.5-Super-VL',
         endpoint: 'https://integrate.api.nvidia.com/v1'
       }
     );
@@ -33,7 +33,7 @@ describe('HermesAgentRuntime credit boundary', () => {
   });
 });
 
-const profile = { providerProfile: 'nebius-token-factory', model: 'nvidia/nemotron-3-super-120b-a12b', endpoint: 'https://api.tokenfactory.nebius.com/v1' };
+const profile = { providerProfile: 'nebius-token-factory', model: 'nvidia/Nemotron-3.5-Super-VL', endpoint: 'https://api.tokenfactory.nebius.com/v1' };
 const input = { runId: 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa', ownerId: 'owner', manifest: { ...profile }, beforeProviderAttempt: jest.fn() } as unknown as RuntimeRunInput;
 const reserve = { operation: 'reserve', callId: 'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb', attemptId: 'cccccccc-cccc-4ccc-8ccc-cccccccccccc', providerProfile: profile.providerProfile, model: profile.model, inputTokenUpperBound: 1024, inputBounderVersion: 'hermes-json-utf8-v1' };
 

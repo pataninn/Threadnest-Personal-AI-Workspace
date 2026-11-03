@@ -5,7 +5,7 @@ import { TypeOrmProviderPermissionRepository } from '@/infrastructure/database/r
 const OWNER_ID = '11111111-1111-4111-8111-111111111111';
 const PROJECT_ID = '22222222-2222-4222-8222-222222222222';
 const PERMISSION_ID = '33333333-3333-4333-8333-333333333333';
-const scope = { ownerId: OWNER_ID, projectId: PROJECT_ID, providerProfile: 'nvidia-hosted-nim', model: 'nvidia/nemotron-3-super-120b-a12b' } as const;
+const scope = { ownerId: OWNER_ID, projectId: PROJECT_ID, providerProfile: 'nvidia-hosted-nim', model: 'nvidia/Nemotron-3.5-Super-VL' } as const;
 
 function permissionRow(overrides: Record<string, unknown> = {}): Record<string, unknown> {
   return {

@@ -135,7 +135,7 @@ function cookie(token: string): string { return `${SESSION_COOKIE_NAME}=${token}
 function policyRow(overrides: Partial<AssistantScopePolicy> = {}): AssistantScopePolicy {
   return {
     id: 'policy-id', ownerId: OWNER_A, scopeKind: 'home', projectId: null, policyProfile: 'home_in_scope_v1',
-    providerProfile: 'nvidia-hosted-nim', model: 'nvidia/nemotron-3-super-120b-a12b', enabled: true, revokedAt: null,
+    providerProfile: 'nvidia-hosted-nim', model: 'nvidia/Nemotron-3.5-Super-VL', enabled: true, revokedAt: null,
     revision: '2', createdAt: NOW, updatedAt: NOW, ...overrides
   };
 }

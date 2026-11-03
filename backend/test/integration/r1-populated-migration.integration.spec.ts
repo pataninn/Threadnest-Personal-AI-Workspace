@@ -584,7 +584,7 @@ function migrationWorkspaceBoundary(workspaceRoot: string, managedRoot: string):
 function testManifest(): EgressManifest {
   return {
     manifestHash: 'a'.repeat(64), provider: 'NVIDIA hosted NIM', providerProfile: 'nvidia-hosted-nim',
-    model: 'nvidia/nemotron-3-super-120b-a12b', categories: ['Request'], files: [], requestBytes: 8,
+    model: 'nvidia/Nemotron-3.5-Super-VL', categories: ['Request'], files: [], requestBytes: 8,
     messageBytes: 0, messageCount: 0, messageHash: 'b'.repeat(64), byteEstimate: 8, tokenEstimate: 2,
     excludedItemCount: 0, omittedItemCount: 0, omissionSummary: 'No selected items were omitted.', bestEffortSecretDetection: true
   };

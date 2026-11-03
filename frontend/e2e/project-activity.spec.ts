@@ -43,7 +43,7 @@ test('reviews project run activity and safe details without starting a provider 
     createdAt: '2026-09-30T00:00:00.000Z',
     updatedAt: '2026-09-30T00:00:02.000Z',
     provider: 'NVIDIA hosted NIM',
-    model: 'nvidia/nemotron-3-super-120b-a12b',
+    model: 'nvidia/Nemotron-3.5-Super-VL',
     requestPreview: 'Review activity fixture.',
     context: { categories: ['Request', 'Project files'], fileCount: 1, factCount: 0, messageCount: 0, estimatedTokens: 32 },
     usage: { status: 'partial', promptTokens: 28, completionTokens: null, totalTokens: null },

@@ -10,7 +10,7 @@ import type { IProjectRepository } from '@/modules/projects/repositories/project
 const OWNER = '11111111-1111-4111-8111-111111111111';
 const PROJECT = '22222222-2222-4222-8222-222222222222';
 const PROVIDER = 'nvidia-hosted-nim';
-const MODEL = 'nvidia/nemotron-3-super-120b-a12b';
+const MODEL = 'nvidia/Nemotron-3.5-Super-VL';
 
 describe('AssertAssistantExecutionPolicyUseCase', () => {
   it('authorizes only an active owned project with the exact provider/model and current policy revision', async () => {

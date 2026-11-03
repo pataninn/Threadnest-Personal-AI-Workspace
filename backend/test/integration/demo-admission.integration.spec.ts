@@ -845,7 +845,7 @@ describeDatabase('Task 3.3 demo admission with PostgreSQL', () => {
     `, [conversationId, ownerId, projectId]);
     const manifest = {
       manifestHash: 'a'.repeat(64), provider: 'NVIDIA hosted NIM', providerProfile: 'nvidia-hosted-nim',
-      model: 'nvidia/nemotron-3-super-120b-a12b', categories: ['Request'], files: [], requestBytes: 0,
+      model: 'nvidia/Nemotron-3.5-Super-VL', categories: ['Request'], files: [], requestBytes: 0,
       messageBytes: 0, messageCount: 0, messageHash: 'b'.repeat(64), byteEstimate: 0, tokenEstimate: 0,
       excludedItemCount: 0, omittedItemCount: 0, omissionSummary: 'No selected items were excluded.',
       bestEffortSecretDetection: true

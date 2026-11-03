@@ -58,7 +58,7 @@ class RejectingStagingGateway implements IStagingGateway {
 
 function makeManifest(): EgressManifest {
   return {
-    manifestHash: 'a'.repeat(64), provider: 'NVIDIA hosted NIM', providerProfile: 'nvidia-hosted-nim', model: 'nvidia/nemotron-3-super-120b-a12b',
+    manifestHash: 'a'.repeat(64), provider: 'NVIDIA hosted NIM', providerProfile: 'nvidia-hosted-nim', model: 'nvidia/Nemotron-3.5-Super-VL',
     categories: ['Request'], files: [], requestBytes: 7, messageBytes: 0, messageCount: 0, messageHash: hash('[]'), byteEstimate: 7, tokenEstimate: 2,
     excludedItemCount: 0, omittedItemCount: 0, omissionSummary: 'No selected items were excluded or omitted.', bestEffortSecretDetection: true
   };

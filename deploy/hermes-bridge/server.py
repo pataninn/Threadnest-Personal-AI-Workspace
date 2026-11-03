@@ -105,7 +105,7 @@ def dispatch(body):
             assert_route(profile(), payload)
             if not isinstance(payload.get('prompt'), str) or len(payload['prompt'].encode()) > 256 * 1024:
                 raise BridgeError('Invalid run prompt')
-            if not re.fullmatch(r'[a-zA-Z0-9_./:-]{1,200}', payload.get('model', 'nvidia/nemotron-3-super-120b-a12b')):
+            if not re.fullmatch(r'[a-zA-Z0-9_./:-]{1,200}', payload.get('model', 'nvidia/Nemotron-3.5-Super-VL')):
                 raise BridgeError('Invalid model identifier')
             run = Run(identity, capability, payload)
             RUNS[identity] = run

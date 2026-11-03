@@ -95,7 +95,7 @@ class ReadyRunFixture implements IAiRunRepository {
         manifestHash: 'a'.repeat(64),
         provider: 'NVIDIA hosted NIM',
         providerProfile: 'nvidia-hosted-nim',
-        model: 'nvidia/nemotron-3-super-120b-a12b',
+        model: 'nvidia/Nemotron-3.5-Super-VL',
         categories: ['Request'],
         files: [],
         requestBytes: 7,

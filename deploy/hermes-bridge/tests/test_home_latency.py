@@ -14,7 +14,7 @@ import planning_lifecycle as planning
 TURN = 'c38135b6-f877-4e9c-899a-4c0e53864854'
 OTHER = 'b5f9b759-f2b9-4949-a98d-20697e01acb2'
 CAP = 'a' * 43
-ROUTE = {'providerProfile': 'nebius-token-factory', 'model': 'nvidia/nemotron-3-super-120b-a12b', 'endpoint': 'https://api.tokenfactory.nebius.com/v1'}
+ROUTE = {'providerProfile': 'nebius-token-factory', 'model': 'nvidia/Nemotron-3.5-Super-VL', 'endpoint': 'https://api.tokenfactory.nebius.com/v1'}
 PAYLOAD = {**ROUTE, 'maxOutputTokens': 512, 'requiredProviderReceiptVersion': 1}
 
 class FakeThread:

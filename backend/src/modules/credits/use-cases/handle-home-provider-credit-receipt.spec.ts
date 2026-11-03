@@ -3,10 +3,10 @@ import type { CreditCallSourceKind, IProviderCallCreditAdmission, ProviderCallCr
 import { HandleHomeProviderCreditReceiptUseCase } from '@/modules/credits/use-cases/handle-home-provider-credit-receipt';
 import type { HomeProviderCreditRequest } from '@/modules/home-assistant/repositories/home-planning-runtime';
 
-const MODEL = 'nvidia/nemotron-3-super-120b-a12b';
+const MODEL = 'nvidia/Nemotron-3.5-Super-VL';
 const configuration: ProviderCallCreditConfiguration = {
   price: { version: 'price-v1', inputUnitsPerMillionTokens: 300_000n, outputUnitsPerMillionTokens: 900_000n },
-  maxInputTokens: 262_144,
+  maxInputTokens: 1_048_576,
   maxOutputTokens: 512,
   maxAttemptsForSource: 1
 };
@@ -45,8 +45,8 @@ describe('HandleHomeProviderCreditReceiptUseCase', () => {
       ownerId: 'owner-1', turnId: 'turn-1', providerProfile: NEBIUS_PROVIDER_PROFILE, model: MODEL, request: reservationRequest
     })).resolves.toEqual({ outcome: 'reserved', reservationId: 'reservation-1' });
     expect(admission.reserveBeforeSend).toHaveBeenCalledWith(expect.objectContaining({
-      inputBounderVersion: 'nebius-nemotron-context-v1',
-      maxInputTokens: 262_144,
+      inputBounderVersion: 'nebius-nemotron-3.5-context-v2',
+      maxInputTokens: 1_048_576,
       maxOutputTokens: 512,
       maxAttemptsForSource: 1
     }));
@@ -87,14 +87,14 @@ describe('optional Home estimated usage', () => {
   });
 
   it('settles missing usage with byte-based input and the capped output estimate when enabled', async () => {
-    const { useCase, ledger } = setup(262144, true);
+    const { useCase, ledger } = setup(1048576, true);
     await useCase.handle({ ...receiptInput, request: reservationRequest });
     await expect(useCase.handle({ ...receiptInput, request: { operation: 'unknown', callId: 'call-1', attemptId: 'attempt-1', reservationId: 'reservation-1' } })).resolves.toEqual({ outcome: 'settled', status: 'settled' });
     expect(ledger.settleProviderCall).toHaveBeenCalledWith({ reservationId: 'reservation-1', usage: { promptTokens: 1024, completionTokens: 512 }, estimated: true });
   });
 
   it('preserves provider usage without estimating a completed call again', async () => {
-    const { useCase, admission, ledger } = setup(262144, true);
+    const { useCase, admission, ledger } = setup(1048576, true);
     await useCase.handle({ ...receiptInput, request: reservationRequest });
     await useCase.handle({ ...receiptInput, request: { operation: 'settle', callId: 'call-1', attemptId: 'attempt-1', reservationId: 'reservation-1', usage: { promptTokens: 10, completionTokens: 2, totalTokens: 12 } } });
     expect(admission.settleReportedUsage).toHaveBeenCalledWith('reservation-1', { promptTokens: 10, completionTokens: 2, totalTokens: 12 });
@@ -103,7 +103,7 @@ describe('optional Home estimated usage', () => {
   });
 
   it('settles an interrupted call using an estimate once', async () => {
-    const { useCase, ledger } = setup(262144, true);
+    const { useCase, ledger } = setup(1048576, true);
     await useCase.handle({ ...receiptInput, request: reservationRequest });
     await useCase.markInterrupted('owner-1', 'turn-1');
     await useCase.markInterrupted('owner-1', 'turn-1');
@@ -112,7 +112,7 @@ describe('optional Home estimated usage', () => {
   });
 
   it('retains unknown if estimate settlement fails and rejects mismatched reservation IDs', async () => {
-    const { useCase, admission, ledger } = setup(262144, true);
+    const { useCase, admission, ledger } = setup(1048576, true);
     await useCase.handle({ ...receiptInput, request: reservationRequest });
     ledger.settleProviderCall.mockRejectedValue(new Error('ledger unavailable'));
     await expect(useCase.handle({ ...receiptInput, request: { operation: 'unknown', callId: 'call-1', attemptId: 'attempt-1', reservationId: 'reservation-1' } })).resolves.toEqual({ outcome: 'unknown' });
@@ -125,7 +125,7 @@ describe('optional Home estimated usage', () => {
 
 
 it('meters workspace AI runs under their own source kind and estimates interruption', async () => {
-  const { useCase, admission, ledger } = setup(262144, true, 'ai_run');
+  const { useCase, admission, ledger } = setup(1048576, true, 'ai_run');
   await useCase.handle({ ...receiptInput, request: reservationRequest });
   expect(admission.reserveBeforeSend).toHaveBeenCalledWith(expect.objectContaining({ sourceKind: 'ai_run', sourceId: 'turn-1' }));
   await useCase.markInterrupted('owner-1', 'turn-1');

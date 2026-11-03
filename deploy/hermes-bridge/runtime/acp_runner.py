@@ -378,7 +378,7 @@ if __name__ == '__main__':
 
 
     def agent_init(self, *args, **kwargs):
-        kwargs['model'] = os.environ.get('PAI_MODEL', 'nvidia/nemotron-3-super-120b-a12b')
+        kwargs['model'] = os.environ.get('PAI_MODEL', 'nvidia/Nemotron-3.5-Super-VL')
         kwargs['enabled_toolsets'] = ['file', 'terminal', 'skills', 'todo']
         kwargs['max_iterations'] = 24
         kwargs['api_mode'] = 'chat_completions'

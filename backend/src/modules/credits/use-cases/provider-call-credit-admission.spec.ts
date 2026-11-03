@@ -16,7 +16,7 @@ function ledger(): jest.Mocked<ICreditLedgerRepository> {
 
 const request = {
   ownerId: 'a'.repeat(36), sourceKind: 'ai_run' as const, sourceId: 'b'.repeat(36), callId: 'primary', attemptId: '1',
-  providerProfile: 'nvidia-hosted-nim', model: 'nvidia/nemotron-3-super-120b-a12b',
+  providerProfile: 'nvidia-hosted-nim', model: 'nvidia/Nemotron-3.5-Super-VL',
   price: { version: 'offline-v1', inputUnitsPerMillionTokens: 1_000_000n, outputUnitsPerMillionTokens: 2_000_000n },
   inputBounderVersion: 'fixture-v1', maxInputTokens: 2, maxOutputTokens: 1, maxAttemptsForSource: 1
 };

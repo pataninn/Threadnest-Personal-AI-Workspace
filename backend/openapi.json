@@ -7711,7 +7711,7 @@
           },
           "model": {
             "type": "string",
-            "example": "nvidia/nemotron-3-super-120b-a12b"
+            "example": "nvidia/Nemotron-3.5-Super-VL"
           },
           "content": {
             "type": "object",

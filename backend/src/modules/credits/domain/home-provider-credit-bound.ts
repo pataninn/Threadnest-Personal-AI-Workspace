@@ -1,10 +1,11 @@
 import { NEBIUS_PROVIDER_PROFILE } from '@/modules/ai-runs/domain/model-provider-profile';
 
-// Nebius lists a 256K-token context; serialized request bytes are not a token bound: https://nebius.com/services/token-factory/models/nvidia-nemotron-models-inference
+// Reserve the full model context because serialized request bytes do not bound token usage.
+// https://docs.nvidia.com/nim/large-language-models/2.0.13/get-started/advanced/get-started-nemotron-3.5-super-vl.html
 export const HOME_NEBIUS_NEMOTRON_BOUND = {
   providerProfile: NEBIUS_PROVIDER_PROFILE,
-  model: 'nvidia/nemotron-3-super-120b-a12b',
-  maxInputTokens: 262_144,
+  model: 'nvidia/Nemotron-3.5-Super-VL',
+  maxInputTokens: 1_048_576,
   maxOutputTokens: 512,
-  version: 'nebius-nemotron-context-v1'
+  version: 'nebius-nemotron-3.5-context-v2'
 } as const;

@@ -158,7 +158,7 @@ describe('loadConfig', () => {
       NIM_CREDIT_PRICE_VERSION: 'price-v1',
       NIM_INPUT_CREDIT_UNITS_PER_MILLION_TOKENS: '300000',
       NIM_OUTPUT_CREDIT_UNITS_PER_MILLION_TOKENS: '900000',
-      NIM_MAX_INPUT_TOKENS: '262143',
+      NIM_MAX_INPUT_TOKENS: '1048575',
       NIM_MAX_OUTPUT_TOKENS: '512',
       NIM_MAX_PROVIDER_CALLS_PER_RUN: '1',
       AGENT_RUNTIME_MODE: 'hermes',
@@ -169,8 +169,8 @@ describe('loadConfig', () => {
     };
 
     expect(() => loadConfig(nebiusHermesEnvironment)).toThrow(ConfigurationError);
-    expect(loadConfig({ ...nebiusHermesEnvironment, NIM_MAX_INPUT_TOKENS: '262144' }).providerCreditConfiguration?.maxInputTokens)
-      .toBe(262_144);
+    expect(loadConfig({ ...nebiusHermesEnvironment, NIM_MAX_INPUT_TOKENS: '1048576' }).providerCreditConfiguration?.maxInputTokens)
+      .toBe(1_048_576);
   });
 
   it('rejects partial or out-of-range provider credit profiles', () => {
@@ -271,6 +271,13 @@ describe('loadConfig', () => {
     expect(() => loadConfig({
       ...validEnvironment,
       NIM_MODEL: 'other-model'
+    })).toThrow(ConfigurationError);
+  });
+
+  it('rejects the retired Nebius model instead of silently keeping the old route', () => {
+    expect(() => loadConfig({
+      ...validEnvironment,
+      NIM_MODEL: 'nvidia/nemotron-3-super-120b-a12b'
     })).toThrow(ConfigurationError);
   });
 

@@ -17,7 +17,7 @@ const NOW = new Date('2026-09-30T00:00:00.000Z');
 
 function makeRun(overrides: Partial<AiRun> = {}): AiRun {
   const manifest: EgressManifest = {
-    manifestHash: 'a'.repeat(64), provider: 'NVIDIA hosted NIM', providerProfile: 'nvidia-hosted-nim', model: 'nvidia/nemotron-3-super-120b-a12b',
+    manifestHash: 'a'.repeat(64), provider: 'NVIDIA hosted NIM', providerProfile: 'nvidia-hosted-nim', model: 'nvidia/Nemotron-3.5-Super-VL',
     categories: ['Request', 'Project files', 'Project facts'],
     files: [{ relativePath: 'src/app.ts', sourceHash: 'b'.repeat(64), sizeBytes: 12 }],
     facts: [{ id: MESSAGE_ID, title: 'Project goal', content: 'fact body must stay private', source: { kind: 'user', label: 'Added by you', reference: null }, version: 1, verifiedAt: null, verificationStatus: 'verified', updatedAt: NOW.toISOString(), sizeBytes: 28, sourceHash: 'c'.repeat(64) }],

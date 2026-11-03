@@ -76,7 +76,7 @@ class Run:
             if self.cancelled.is_set():
                 return
             self._upload()
-            environment = ['PAI_PROJECT_ROOT=' + self.remote + '/project', 'PAI_MODEL=' + self.payload.get('model', 'nvidia/nemotron-3-super-120b-a12b'), 'PAI_PROVIDER_PROFILE=' + self.payload['providerProfile'], 'PAI_PLANNING_MAX_TOKENS=' + str(self.payload['maxOutputTokens'])]
+            environment = ['PAI_PROJECT_ROOT=' + self.remote + '/project', 'PAI_MODEL=' + self.payload.get('model', 'nvidia/Nemotron-3.5-Super-VL'), 'PAI_PROVIDER_PROFILE=' + self.payload['providerProfile'], 'PAI_PLANNING_MAX_TOKENS=' + str(self.payload['maxOutputTokens'])]
             if self.is_policy:
                 environment.append('PAI_POLICY_BINDING=' + base64.b64encode(json.dumps(self.policy_binding, separators=(',', ':')).encode()).decode())
             self.acp = AcpSession(self.ssh_command('/usr/bin/env', *environment, '/opt/hermes/.venv/bin/python', '/opt/pai/acp_runner.py'), self)

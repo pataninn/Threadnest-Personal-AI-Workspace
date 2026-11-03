@@ -522,21 +522,21 @@ describeDatabase('Task 3.1 PostgreSQL credit ledger', () => {
     expect(history).toHaveLength(3);
     expect(history).toEqual(expect.arrayContaining([
       {
-        status: 'settled', providerProfile: 'nvidia-hosted-nim', model: 'nvidia/nemotron-3-super-120b-a12b',
+        status: 'settled', providerProfile: 'nvidia-hosted-nim', model: 'nvidia/Nemotron-3.5-Super-VL',
         usage: { inputTokens: 11, outputTokens: 3, chargedUnits: '14' }
       },
-      { status: 'unknown', providerProfile: 'nvidia-hosted-nim', model: 'nvidia/nemotron-3-super-120b-a12b' },
-      { status: 'unknown', providerProfile: 'nvidia-hosted-nim', model: 'nvidia/nemotron-3-super-120b-a12b' }
+      { status: 'unknown', providerProfile: 'nvidia-hosted-nim', model: 'nvidia/Nemotron-3.5-Super-VL' },
+      { status: 'unknown', providerProfile: 'nvidia-hosted-nim', model: 'nvidia/Nemotron-3.5-Super-VL' }
     ]));
     await expect(repository.listHomeTurnProviderCallUsage(REGULAR_ID, OTHER_HOME_TURN_ID)).resolves.toEqual([
       {
-        status: 'settled', providerProfile: 'nvidia-hosted-nim', model: 'nvidia/nemotron-3-super-120b-a12b',
+        status: 'settled', providerProfile: 'nvidia-hosted-nim', model: 'nvidia/Nemotron-3.5-Super-VL',
         usage: { inputTokens: 2, outputTokens: 1, chargedUnits: '3' }
       }
     ]);
     await expect(repository.listHomeTurnProviderCallUsage(HISTORY_OTHER_OWNER_ID, HOME_TURN_ID)).resolves.toEqual([
       {
-        status: 'settled', providerProfile: 'nvidia-hosted-nim', model: 'nvidia/nemotron-3-super-120b-a12b',
+        status: 'settled', providerProfile: 'nvidia-hosted-nim', model: 'nvidia/Nemotron-3.5-Super-VL',
         usage: { inputTokens: 5, outputTokens: 1, chargedUnits: '6' }
       }
     ]);
@@ -551,7 +551,7 @@ function reservation(ownerId: string, sourceId: string, callId: string, attemptI
     callId,
     attemptId,
     providerProfile: 'nvidia-hosted-nim',
-    model: 'nvidia/nemotron-3-super-120b-a12b',
+    model: 'nvidia/Nemotron-3.5-Super-VL',
     price: { version: 'offline-fixture-v1', inputUnitsPerMillionTokens: 1_000_000n, outputUnitsPerMillionTokens: 1_000_000n },
     inputBounderVersion: 'fixture-bound-v1',
     maxInputTokens: 4,

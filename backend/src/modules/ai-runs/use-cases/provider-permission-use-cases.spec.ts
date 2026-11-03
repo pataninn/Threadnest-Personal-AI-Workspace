@@ -4,7 +4,7 @@ import { ListProviderPermissionsUseCase, RevokeProviderPermissionUseCase } from 
 const OWNER_ID = '11111111-1111-4111-8111-111111111111';
 const PROJECT_ID = '22222222-2222-4222-8222-222222222222';
 const FOREIGN_PROJECT_ID = '44444444-4444-4444-8444-444444444444';
-const scope = { ownerId: OWNER_ID, projectId: PROJECT_ID, providerProfile: 'nvidia-hosted-nim', model: 'nvidia/nemotron-3-super-120b-a12b' } as const;
+const scope = { ownerId: OWNER_ID, projectId: PROJECT_ID, providerProfile: 'nvidia-hosted-nim', model: 'nvidia/Nemotron-3.5-Super-VL' } as const;
 
 describe('provider permission management use cases', () => {
   it('lists records only for the requested owner and project', async () => {

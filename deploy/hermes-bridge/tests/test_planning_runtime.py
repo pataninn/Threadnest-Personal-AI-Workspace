@@ -26,7 +26,7 @@ TURN_ID = 'c38135b6-f877-4e9c-899a-4c0e53864854'
 CAPABILITY = 'a' * 43
 PROVIDER = {
     'providerProfile': 'nebius-token-factory',
-    'model': 'nvidia/nemotron-3-super-120b-a12b',
+    'model': 'nvidia/Nemotron-3.5-Super-VL',
     'endpoint': 'https://api.tokenfactory.nebius.com/v1',
 }
 

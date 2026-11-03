@@ -900,7 +900,7 @@ function parseManifest(value: unknown, manifestHash: string): EgressManifest {
     manifestHash,
     provider: candidate.providerProfile === 'nebius-token-factory' ? 'Nebius Token Factory' : 'NVIDIA hosted NIM',
     providerProfile: typeof candidate.providerProfile === 'string' ? candidate.providerProfile : 'nvidia-hosted-nim',
-    model: typeof candidate.model === 'string' ? candidate.model : 'nvidia/nemotron-3-super-120b-a12b',
+    model: typeof candidate.model === 'string' ? candidate.model : 'nvidia/Nemotron-3.5-Super-VL',
     categories: Array.isArray(candidate.categories) ? candidate.categories.filter((item): item is string => typeof item === 'string') : [],
     files: Array.isArray(candidate.files) ? candidate.files.filter(isFileEntry) : [],
     requestBytes: numberValue(candidate.requestBytes),

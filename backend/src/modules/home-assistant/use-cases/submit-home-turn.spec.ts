@@ -169,7 +169,7 @@ describe('SubmitHomeTurnUseCase', () => {
 
   it('disposes the actual adapter capability when the owner disappears during a pending create', async () => {
     const { conversations, executionPolicy } = setup();
-    const actualProvider: HomePlanningProvider = { profile: 'nebius-token-factory', model: 'nvidia/nemotron-3-super-120b-a12b', endpoint: 'https://api.tokenfactory.nebius.com/v1' };
+    const actualProvider: HomePlanningProvider = { profile: 'nebius-token-factory', model: 'nvidia/Nemotron-3.5-Super-VL', endpoint: 'https://api.tokenfactory.nebius.com/v1' };
     let resolveCreate: (value: Record<string, unknown>) => void = () => undefined;
     const pending = new Promise<Record<string, unknown>>((resolve) => { resolveCreate = resolve; });
     let enterCreate: () => void = () => undefined;

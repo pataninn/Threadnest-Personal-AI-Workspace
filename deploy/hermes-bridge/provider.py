@@ -6,7 +6,7 @@ from pathlib import Path
 
 from common import BridgeError, CLI, GATEWAY, run_cli
 
-MODEL = 'nvidia/nemotron-3-super-120b-a12b'
+MODEL = 'nvidia/Nemotron-3.5-Super-VL'
 ROUTES = {
     'nvidia-hosted-nim': ('compatible-endpoint', 'https://integrate.api.nvidia.com/v1'),
     'nebius-token-factory': ('pai-nebius-token-factory', 'https://api.tokenfactory.nebius.com/v1'),

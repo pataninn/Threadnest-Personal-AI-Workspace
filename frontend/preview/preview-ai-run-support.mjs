@@ -2,7 +2,7 @@ import { createHash } from 'node:crypto';
 
 export const PROVIDER = 'NVIDIA hosted NIM';
 export const PROVIDER_PROFILE = 'nvidia-hosted-nim';
-export const MODEL = 'nvidia/nemotron-3-super-120b-a12b';
+export const MODEL = 'nvidia/Nemotron-3.5-Super-VL';
 export const PRE_CONSENT_NOTICE = 'Nothing has been copied to the run staging area or sent to NVIDIA yet.';
 export const REJECTED_NOTICE = 'Nothing was copied to the run staging area or sent to NVIDIA.';
 export const APPROVED_NOTICE = 'This disclosure was approved for this run.';

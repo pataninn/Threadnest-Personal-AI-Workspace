@@ -125,8 +125,8 @@ to preserve data.
 
 ## NVIDIA Nemotron and Nebius Token Factory
 
-The configured model is **NVIDIA Nemotron 3 Super**, served as
-`nvidia/nemotron-3-super-120b-a12b` through **Nebius Token Factory** at
+The configured model is **NVIDIA Nemotron 3.5 Super VL**, served as
+`nvidia/Nemotron-3.5-Super-VL` through **Nebius Token Factory** at
 `https://api.tokenfactory.nebius.com/v1`. NVIDIA publishes the open model;
 Nebius hosts the inference endpoint used by this project. The repository
 integrates the model and does not train or fine-tune its weights.
@@ -163,7 +163,7 @@ unknown spending stays reserved instead of being automatically replayed.
 
 | Component | Role and implementation |
 | --- | --- |
-| NVIDIA Nemotron 3 Super | Model route and endpoint checks in [provider.py](deploy/hermes-bridge/provider.py). |
+| NVIDIA Nemotron 3.5 Super VL | Model route and endpoint checks in [provider.py](deploy/hermes-bridge/provider.py). |
 | Nebius Token Factory | Hosted inference provider; configured in [.env.example](.env.example), with gateway credential setup in [provider.py](deploy/hermes-bridge/provider.py). |
 | NVIDIA OpenShell + Hermes agent runtime | Isolated agent execution and supervised bridge; pinned settings in [common.py](deploy/hermes-bridge/common.py) and the [runtime image](docker/hermes.Dockerfile). |
 | Usage controls | Provider-call reservation/settlement in [provider_credit.py](deploy/hermes-bridge/runtime/provider_credit.py) and the [credit use cases](backend/src/modules/credits/use-cases). |
@@ -172,7 +172,7 @@ unknown spending stays reserved instead of being automatically replayed.
 Application staging uses AWS EC2/EBS, Docker and PostgreSQL; it does not use
 Nebius Compute, storage or fine-tuning services.
 
-References: [NVIDIA Nemotron 3 Super](https://research.nvidia.com/labs/nemotron/Nemotron-3-Super/),
+References: [NVIDIA Nemotron 3.5 Super VL](https://docs.tokenfactory.nebius.com/model-deprecations-november-2026),
 [Nebius Nemotron model catalog](https://nebius.com/services/token-factory/models/nvidia-nemotron-models-inference),
 and [Token Factory API quickstart](https://docs.tokenfactory.nebius.com/quickstart).
 
@@ -201,7 +201,7 @@ Save just your Nebius API key in ignored `secrets/nebius_api_key`. Configure roo
 NEBIUS_API_KEY_FILE=./secrets/nebius_api_key
 NIM_PROFILE=nebius-token-factory
 NIM_ENDPOINT=https://api.tokenfactory.nebius.com/v1
-NIM_MODEL=nvidia/nemotron-3-super-120b-a12b
+NIM_MODEL=nvidia/Nemotron-3.5-Super-VL
 AGENT_RUNTIME_MODE=hermes
 ```
 
@@ -283,7 +283,7 @@ Rates are positive integer credit units per 1,000,000 tokens; one displayed
 credit equals 1,000,000 integer credit units. Prices and request limits have no
 application defaults. Partial configuration is rejected. These values alone
 still do not bypass the global pause, account limits, or demo shared budgets.
-The supported Nebius/Nemotron path reserves the full 262,144-token input bound;
+The supported Nebius/Nemotron path reserves the full 1,048,576-token input bound;
 `NIM_MAX_INPUT_TOKENS` must cover that bound. The bridge enforces admission and
 records usage at provider calls. Requests fail closed when the required policy,
 credit configuration, or bridge enforcement is unavailable. No provider prices,

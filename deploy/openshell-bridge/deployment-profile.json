@@ -1,7 +1,7 @@
 {
   "lifecycleOwner": "raw-openshell",
   "profileVersion": 1,
-  "profileDigest": "sha256:446eedd06ff7aacf401d71738771d8a4d4874a5b75c372a1e41b9331fc2f98c6",
+  "profileDigest": "sha256:4e1d061e334ed1d46cf9324c7f2c673f5f2f5bfc9bd31c36445d799485f2ea2d",
   "openshellBinaryPath": "/home/patan/.local/bin/openshell",
   "openshellSha256": "24e85062073d512d1951c76cd3890b7bce1ab01cc36a08f88b3b43c067a402da",
   "sshBinaryPath": "/usr/bin/ssh",
@@ -13,7 +13,7 @@
   "policySha256": "1e9674c371a3e3074d1e72131054e5dda64314d4accfbb18da9feeba43082901",
   "effectivePolicySha256": "9f7f16d4da2edb4d5d9de1f008ae96fbf62573cecc540caf23bd96189a2ad06b",
   "providerName": "compatible-endpoint",
-  "model": "nvidia/nemotron-3-super-120b-a12b",
+  "model": "nvidia/Nemotron-3.5-Super-VL",
   "remoteStagingRoot": "/sandbox/pai-runs",
   "cpuLimit": 1,
   "memoryMiB": 2048,

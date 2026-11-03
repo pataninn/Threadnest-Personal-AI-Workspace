@@ -38,7 +38,7 @@ describe('AI run API normalizers', () => {
       manifestHash: HASH,
       provider: 'NVIDIA hosted NIM',
       providerProfile: 'nvidia-hosted-nim',
-      model: 'nvidia/nemotron-3-super-120b-a12b',
+      model: 'nvidia/Nemotron-3.5-Super-VL',
       content: {
         categories: ['Request', 'Project files'],
         relativePaths: ['/workspace/private.env', '../outside.txt', 'src/index.ts'],
@@ -53,7 +53,7 @@ describe('AI run API normalizers', () => {
     expect(manifest.relativePaths).toEqual(['src/index.ts']);
     expect(manifest.preConsentNotice).toBe('Nothing has been sent to NVIDIA hosted NIM yet.');
     expect(manifest.omissionSummary).toBe('Some selected items were excluded by local safety policy.');
-    expect(manifest.model).toBe('nvidia/nemotron-3-super-120b-a12b');
+    expect(manifest.model).toBe('nvidia/Nemotron-3.5-Super-VL');
   });
 
   it('normalizes the backend run resource while keeping runtime data bounded', () => {
@@ -117,7 +117,7 @@ describe('AI run API normalizers', () => {
         runId: RUN_ID,
         manifestHash: HASH,
         provider: 'NVIDIA hosted NIM',
-        model: 'nvidia/nemotron-3-super-120b-a12b',
+        model: 'nvidia/Nemotron-3.5-Super-VL',
         content: { categories: ['Request'], relativePaths: [], itemCount: 0, messageCount: 0, byteEstimate: 12, tokenEstimate: 3 },
         redaction: { excludedItemCount: 0, omittedItemCount: 0 }
       }
@@ -181,7 +181,7 @@ describe('AI run API normalizers', () => {
       subject: { ownerId: '99999999-9999-4999-8999-999999999999', label: 'Signed-in account' },
       projectId: PROJECT_ID,
       providerProfile: 'nvidia-hosted-nim',
-      model: 'nvidia/nemotron-3-super-120b-a12b',
+      model: 'nvidia/Nemotron-3.5-Super-VL',
       capability: 'send_selected_context',
       persistence: 'until_revoked',
       expiresAt: null,

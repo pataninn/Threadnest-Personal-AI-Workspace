@@ -13,7 +13,7 @@ function appWithActivity(includeFileHistory = true): { readonly app: express.Exp
   const getActivity = jest.fn(async () => ({ runId: RUN_ID, projectId: PROJECT_ID }));
   const listFileHistory = jest.fn(async () => ({ projectId: PROJECT_ID, path: 'src/app.ts', outcome: 'all', items: [], nextCursor: null }));
   const listProviderPermissions = jest.fn(async () => []);
-  const revokeProviderPermission = jest.fn(async () => ({ id: RUN_ID, ownerId: OWNER_ID, projectId: PROJECT_ID, providerProfile: 'nvidia-hosted-nim', model: 'nvidia/nemotron-3-super-120b-a12b', capability: 'send_selected_context', createdAt: new Date(), expiresAt: null, revokedAt: new Date() }));
+  const revokeProviderPermission = jest.fn(async () => ({ id: RUN_ID, ownerId: OWNER_ID, projectId: PROJECT_ID, providerProfile: 'nvidia-hosted-nim', model: 'nvidia/Nemotron-3.5-Super-VL', capability: 'send_selected_context', createdAt: new Date(), expiresAt: null, revokedAt: new Date() }));
   const app = express();
   app.use(cookieParser());
   app.use('/api/v1', createAiRunRouter({

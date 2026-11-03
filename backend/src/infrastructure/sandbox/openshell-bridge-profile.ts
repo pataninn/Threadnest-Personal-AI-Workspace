@@ -10,7 +10,7 @@ import {
 export const OPEN_SHELL_BRIDGE_PROFILE_VERSION = 1 as const;
 export const OPEN_SHELL_BRIDGE_EXPECTED_GATEWAY = 'nemoclaw-18080' as const;
 export const OPEN_SHELL_BRIDGE_EXPECTED_PROVIDER = 'compatible-endpoint' as const;
-export const OPEN_SHELL_BRIDGE_EXPECTED_MODEL = 'nvidia/nemotron-3-super-120b-a12b' as const;
+export const OPEN_SHELL_BRIDGE_EXPECTED_MODEL = 'nvidia/Nemotron-3.5-Super-VL' as const;
 export const OPEN_SHELL_BRIDGE_EXPECTED_IMAGE =
   'ghcr.io/nvidia/nemoclaw/hermes-sandbox@sha256:85b894ae84b7c13f9c5799394fb7ef8c753c883b23a380af47eac1e7a82f6dff' as const;
 export const OPEN_SHELL_BRIDGE_EXPECTED_POLICY_SHA256 =

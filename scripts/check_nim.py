@@ -10,7 +10,7 @@ from urllib.request import Request, urlopen
 key_file = Path(__file__).resolve().parents[1] / "secrets" / "nvidia_api_key"
 key = os.environ.get("NVIDIA_API_KEY") or key_file.read_text(encoding="utf-8").strip()
 body = json.dumps({
-    "model": "nvidia/nemotron-3-super-120b-a12b",
+    "model": "nvidia/Nemotron-3.5-Super-VL",
     "messages": [{"role": "user", "content": "Reply with OK."}],
     "max_tokens": 128,
     "stream": False,

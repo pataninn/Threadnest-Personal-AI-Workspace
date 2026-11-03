@@ -132,7 +132,7 @@ async function createSucceededRun(repository: InMemoryAiRunRepository): Promise<
     manifestHash: 'b'.repeat(64),
     provider: 'NVIDIA hosted NIM',
     providerProfile: 'nvidia-hosted-nim',
-    model: 'nvidia/nemotron-3-super-120b-a12b',
+    model: 'nvidia/Nemotron-3.5-Super-VL',
     categories: ['Request'],
     files: [{ relativePath: SOURCE, sourceHash: SOURCE_HASH, sizeBytes: 12 }],
     requestBytes: 4,
