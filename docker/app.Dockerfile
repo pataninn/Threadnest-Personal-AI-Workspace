@@ -3,7 +3,8 @@ FROM node:22.23.4-bookworm-slim AS build
 ENV COREPACK_HOME=/tmp/corepack
 WORKDIR /app
 
-RUN apt-get update && apt-get install -y --no-install-recommends python3 python3-venv && rm -rf /var/lib/apt/lists/*
+RUN sed -i 's|http://deb.debian.org|https://deb.debian.org|g' /etc/apt/sources.list.d/debian.sources \
+    && apt-get update && apt-get install -y --no-install-recommends python3 python3-venv && rm -rf /var/lib/apt/lists/*
 RUN python3 -m venv /opt/markitdown && /opt/markitdown/bin/pip install --no-cache-dir 'markitdown[pdf,docx,pptx,xlsx,xls]==0.1.8'
 
 RUN corepack enable && corepack prepare pnpm@11.8.0 --activate
@@ -23,7 +24,8 @@ FROM node:22.23.4-bookworm-slim AS runtime
 ENV NODE_ENV=production
 WORKDIR /app
 
-RUN apt-get update && apt-get install -y --no-install-recommends python3 && rm -rf /var/lib/apt/lists/*
+RUN sed -i 's|http://deb.debian.org|https://deb.debian.org|g' /etc/apt/sources.list.d/debian.sources \
+    && apt-get update && apt-get install -y --no-install-recommends python3 && rm -rf /var/lib/apt/lists/*
 RUN groupadd --gid 10001 pai && useradd --uid 10001 --gid 10001 --create-home --shell /usr/sbin/nologin pai
 # Fresh recovery volumes inherit a writable, private directory for the app user.
 RUN mkdir -p /var/lib/personal-ai/recovery && chown 10001:10001 /var/lib/personal-ai/recovery && chmod 700 /var/lib/personal-ai/recovery
