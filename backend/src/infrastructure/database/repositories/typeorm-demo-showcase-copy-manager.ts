@@ -6,6 +6,7 @@ import { normalizeProjectName, projectRootOverlapKey } from '@/modules/projects/
 import type { IWorkspaceBoundary } from '@/modules/projects/repositories/workspace-boundary';
 import type { CurrentShowcaseDto, IShowcaseRepository, ShowcaseStoredVersion } from '@/modules/showcases/domain/showcase-types';
 import type { DemoShowcaseCopyDto, IDemoShowcaseCopyManager } from '@/modules/demo/domain/demo-showcase-copy-types';
+import { demoTaskDeadline } from '@/modules/demo/domain/demo-task-deadline';
 import type { ShowcaseLimits } from '@/modules/showcases/domain/showcase-types';
 import type { TypeOrmProjectFileAccess } from '@/infrastructure/database/repositories/typeorm-project-file-access';
 import type { ProjectFileGateway } from '@/infrastructure/workspace/project-file-gateway';
@@ -311,7 +312,8 @@ export class TypeOrmDemoShowcaseCopyManager implements IDemoShowcaseCopyManager 
             VALUES ($1,$2,$3,$4,$5,$6,$7,1,'user',NULL,NULL,NULL,NULL,
               CASE WHEN $11::boolean THEN clock_timestamp() ELSE NULL END,
               $8,$9::date,$10::jsonb)
-          `, [targetId, ownerId, projectId, task.title, task.details, task.status, position, task.importance, task.deadline, JSON.stringify(subtasks), task.status === 'done']);
+          `, [targetId, ownerId, projectId, task.title, task.details, task.status, position, task.importance,
+            demoTaskDeadline(task.deadline, snapshot.publishedAt, locked.owner_created_at), JSON.stringify(subtasks), task.status === 'done']);
         }
         for (const fact of snapshot.facts) {
           const targetId = idMap.facts[fact.id];
@@ -445,14 +447,15 @@ export class TypeOrmDemoShowcaseCopyManager implements IDemoShowcaseCopyManager 
 
   private async lockCopy(manager: EntityManager, copyId: string, ownerId: string): Promise<{
     readonly copy: CopyRow; readonly admission_status: string; readonly owner_active: boolean;
+    readonly owner_created_at: Date | string;
     readonly copy_claim_live: boolean;
   } | null> {
     const admissions = rows<{ readonly id: string; readonly status: string }>(await manager.query(
       'SELECT "id", "status" FROM "demo_admissions" WHERE "id"=(SELECT "admission_id" FROM "demo_showcase_copies" WHERE "copy_id"=$1 AND "owner_id"=$2) AND "owner_id"=$2 FOR UPDATE', [copyId, ownerId]
     ));
     if (!admissions[0]) return null;
-    const owners = rows<{ readonly id: string; readonly active_now: boolean }>(await manager.query(
-      'SELECT "id", ("is_active"=true AND ("expires_at" IS NULL OR "expires_at">clock_timestamp())) AS "active_now" FROM "users" WHERE "id"=$1 FOR UPDATE', [ownerId]
+    const owners = rows<{ readonly id: string; readonly active_now: boolean; readonly created_at: Date | string }>(await manager.query(
+      'SELECT "id", "created_at", ("is_active"=true AND ("expires_at" IS NULL OR "expires_at">clock_timestamp())) AS "active_now" FROM "users" WHERE "id"=$1 FOR UPDATE', [ownerId]
     ));
     if (!owners[0]) return null;
     const copy = rows<CopyRow>(await manager.query(`
@@ -465,6 +468,7 @@ export class TypeOrmDemoShowcaseCopyManager implements IDemoShowcaseCopyManager 
       copy,
       admission_status: admissions[0].status,
       owner_active: owners[0].active_now,
+      owner_created_at: owners[0].created_at,
       copy_claim_live: (copy as CopyRow & { readonly copy_claim_live?: boolean }).copy_claim_live === true
     } : null;
   }

@@ -557,6 +557,40 @@ describeDatabase('Task 3.3 demo admission with PostgreSQL', () => {
     expect(finalRows).toEqual([{ users: 2, admissions: 2, global_count: 2 }]);
   }, 30_000);
 
+  it('anchors copied deadlines to each demo start and preserves edits on replay', async () => {
+    const versionId = randomUUID();
+    const tasks = ['2026-10-26', '2026-10-28', '2026-10-31', null].map((deadline, index) => ({
+      id: randomUUID(), title: `Relative deadline ${index}`, details: null,
+      status: 'todo', importance: 'medium', deadline, checklist: []
+    }));
+    await requiredDataSource().query(`
+      INSERT INTO "showcase_versions" ("id", "project_display", "tasks", "facts", "content_digest", "snapshot_bytes", "item_count", "file_count", "published_at")
+      VALUES ($1, $2::jsonb, $3::jsonb, '[]'::jsonb, repeat('b',64), $4, 4, 0, '2026-10-28T03:00:00Z')
+    `, [versionId, JSON.stringify({ name: 'Relative date fixture', objective: null }), JSON.stringify(tasks), Buffer.byteLength(JSON.stringify(tasks))]);
+    await requiredDataSource().query('UPDATE "showcase_publication" SET "current_version_id"=$1 WHERE "singleton_id"=true', [versionId]);
+
+    for (const day of [7, 8]) {
+      const admitted = await demoUseCase.execute({ idempotencyKey: randomBytes(32).toString('base64url'), clientIp: `203.0.113.${day}` });
+      if (admitted.kind !== 'created') throw new Error('Expected a new demo');
+      const ownerId = admitted.session.principal.id;
+      await requiredDataSource().query('UPDATE "users" SET "created_at"=$2 WHERE "id"=$1', [ownerId, `2026-11-0${day}T03:00:00Z`]);
+      const [admission] = await requiredDataSource().query('SELECT "id" FROM "demo_admissions" WHERE "owner_id"=$1', [ownerId]);
+      await showcaseCopyManager.provision(admission.id, ownerId);
+      expect(await showcaseCopyManager.getStatus(ownerId)).toMatchObject({ state: 'ready' });
+      const deadlines = async () => requiredDataSource().query('SELECT to_char("deadline",\'YYYY-MM-DD\') AS "deadline" FROM "project_tasks" WHERE "owner_id"=$1 ORDER BY "position"', [ownerId]);
+      expect(await deadlines()).toEqual([
+        { deadline: `2026-11-0${day - 2}` }, { deadline: `2026-11-0${day}` },
+        { deadline: `2026-11-${day + 3}` }, { deadline: null }
+      ]);
+      await requiredDataSource().query('UPDATE "project_tasks" SET "deadline"=\'2030-01-01\' WHERE "owner_id"=$1 AND "position"=0', [ownerId]);
+      await showcaseCopyManager.provision(admission.id, ownerId);
+      await showcaseCopyManager.retry(ownerId);
+      expect((await deadlines())[0]).toEqual({ deadline: '2030-01-01' });
+    }
+    expect((await showcaseRepository.getVersion(versionId))?.snapshot.tasks.map((task) => task.deadline))
+      .toEqual(['2026-10-26', '2026-10-28', '2026-10-31', null]);
+  }, 30_000);
+
   it('keeps the admitted immutable pin through publication and gates a quota-failed private file copy until verified retry', async () => {
     await requiredDataSource().query('UPDATE "showcase_publication" SET "current_version_id" = $1 WHERE "singleton_id" = true', [FILE_SHOWCASE_VERSION_ID]);
     const idempotencyKey = randomBytes(32).toString('base64url');
