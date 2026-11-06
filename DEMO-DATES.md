@@ -24,3 +24,26 @@ Verification covers calendar offsets, deliberately overdue and undated tasks,
 Shanghai midnight, leap days, year boundaries, invalid dates and retry stability.
 The PostgreSQL integration test creates two demo accounts with different start
 dates and checks their copied deadlines, replay behavior and unchanged snapshot.
+
+## Verification and deployment — November 7, 2026
+
+- Backend unit tests: **1,117 passed** across 186 suites.
+- Dedicated PostgreSQL demo-admission integration tests: **10 passed**, including
+  two different persisted session start dates and preservation of a visitor edit
+  after replay/retry. The database ran in a disposable isolated container; the
+  production database was not used for integration tests.
+- TypeScript checks and production backend/frontend build passed.
+- Deployed runtime commit `45092e80dee8374ed2476336986c0f3689f11c0d` to the
+  existing AWS Sydney app. Retained the previous image and a private backup.
+- Public live demo: verified all **nine copied task dates** against publication
+  offsets and the new account's November 7 start date. Dated tasks were
+  November 5, 7, 10, 12 and 15; the other four kept no deadline. November 5 is
+  the deliberately overdue example. Reload, session reuse, copy retry and
+  sign-out passed. This verification made no AI calls.
+- Original owner deadline hashes matched before and after deployment. App
+  health, readiness and storage reconciliation passed. AI settings, spending
+  caps and the AWS Free plan were preserved.
+
+To see the new dates, sign out and choose **Try demo** to create a fresh demo
+account. Opening another tab or reconnecting to an existing demo keeps that
+account's original dates.
