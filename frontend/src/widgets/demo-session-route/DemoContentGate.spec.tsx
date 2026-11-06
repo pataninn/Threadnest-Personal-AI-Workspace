@@ -67,7 +67,7 @@ describe('DemoContentGate', () => {
     expect(screen.getByTestId('gate-location')).toHaveTextContent('/dashboard');
   });
 
-  it('polls pending status and opens the ready private project after one admission', async () => {
+  it('polls pending status and stays on Home when the copy is ready, including legacy entry state', async () => {
     getDemoShowcaseCopyMock
       .mockResolvedValueOnce({ state: 'pending', projectId: null, retryAllowed: false, workspaceMode: null, capabilities: null })
       .mockResolvedValueOnce({ state: 'ready', projectId: '11111111-1111-4111-8111-111111111111', retryAllowed: false, workspaceMode: 'planning', capabilities: { planning: true, fileAccess: false } });
@@ -76,7 +76,7 @@ describe('DemoContentGate', () => {
     expect(await screen.findByTestId('demo-copy-unavailable')).toBeInTheDocument();
     expect(screen.queryByText('Private project data')).not.toBeInTheDocument();
     expect(await screen.findByText('Private project data')).toBeInTheDocument();
-    expect(screen.getByTestId('gate-location')).toHaveTextContent('/projects/11111111-1111-4111-8111-111111111111');
+    expect(screen.getByTestId('gate-location')).toHaveTextContent('/dashboard');
     expect(screen.getByTestId('private-demo-banner')).toBeInTheDocument();
     expect(getDemoShowcaseCopyMock).toHaveBeenCalledTimes(2);
   });

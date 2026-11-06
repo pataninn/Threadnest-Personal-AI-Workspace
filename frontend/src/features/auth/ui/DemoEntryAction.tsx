@@ -52,7 +52,7 @@ export function DemoEntryAction(): React.JSX.Element {
       };
       dispatch(sessionAuthenticated(snapshot));
       idempotencyKey.current = null;
-      navigate('/dashboard', { replace: true, state: { demoAdmissionEntry: true } });
+      navigate('/dashboard', { replace: true });
     } catch (error: unknown) {
       if (error instanceof ApiClientError && error.code === 'DEMO_REGULAR_SESSION_ACTIVE') {
         await resumeExistingSession();

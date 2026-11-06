@@ -26,7 +26,7 @@ test('keeps the public showcase read-only and two private demos isolated', async
     await mkdir(dirname(publicScreenshot), { recursive: true });
     await page.screenshot({ path: publicScreenshot, fullPage: true });
 
-    await enterDemo(page, first);
+    await enterDemo(page);
     await expect(page.getByTestId('private-demo-banner')).toContainText('Planning only');
     const privateScreenshot = testInfo.outputPath('task-3-4-private-demo-desktop.png');
     await mkdir(dirname(privateScreenshot), { recursive: true });
@@ -42,7 +42,7 @@ test('keeps the public showcase read-only and two private demos isolated', async
 
     await secondPage.goto(new URL('/showcase', baseURL).toString());
     await expectPublicReadOnly(secondPage);
-    await enterDemo(secondPage, second);
+    await enterDemo(secondPage);
     await expect(secondPage.getByTestId('private-demo-banner')).toContainText('Planning only');
     await secondPage.goto(new URL(`/projects/${second.project.id}/tasks`, baseURL).toString());
     const secondTaskRow = secondPage.getByTestId(`project-task-row-${second.task.id}`);
@@ -262,15 +262,13 @@ async function expectPublicReadOnly(page: Page): Promise<void> {
   await expect(page.getByRole('button')).toHaveCount(0);
 }
 
-async function enterDemo(page: Page, fixture: DemoFixture): Promise<void> {
+async function enterDemo(page: Page): Promise<void> {
   await page.getByRole('link', { name: 'Try demo', exact: true }).click();
   const tryDemo = page.getByTestId('try-demo-button');
   await expect(tryDemo).toBeEnabled();
   await tryDemo.click();
-  if (fixture.label === 'first') {
-    await expect(page.getByTestId('demo-copy-unavailable')).toBeVisible();
-  }
-  await expect(page).toHaveURL(new RegExp(`/projects/${fixture.project.id}$`, 'u'));
+  await expect(page).toHaveURL(/\/dashboard$/u);
+  await expect(page.getByRole('heading', { name: 'Home', exact: true })).toBeVisible();
   await expect(page.getByTestId('private-demo-banner')).toBeVisible();
   await expect(page.getByTestId('demo-copy-preparing')).toHaveCount(0);
   await expect(page.getByTestId('demo-copy-opening')).toHaveCount(0);

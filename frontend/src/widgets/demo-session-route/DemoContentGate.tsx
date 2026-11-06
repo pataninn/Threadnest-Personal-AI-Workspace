@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState, type ReactNode } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useEffect, useState, type ReactNode } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { useAppDispatch, useAppSelector } from '@/app/store/hooks';
 import { getDemoShowcaseCopy, retryDemoShowcaseCopy } from '@/entities/demo';
@@ -20,7 +20,6 @@ const COPY_STATUS_POLL_INTERVAL_MS = 500;
 export function DemoContentGate({ children }: DemoContentGateProps): React.JSX.Element {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const location = useLocation();
   const principal = useAppSelector(selectPrincipal);
   const csrfToken = useAppSelector(selectCsrfToken);
   const expiresAt = useAppSelector(selectExpiresAt);
@@ -30,8 +29,6 @@ export function DemoContentGate({ children }: DemoContentGateProps): React.JSX.E
   const [isRetrying, setIsRetrying] = useState(false);
   const [actionError, setActionError] = useState(false);
   const [isSigningOut, setIsSigningOut] = useState(false);
-  const redirectedToPrivateProject = useRef(false);
-  const isInitialDemoEntry = location.pathname === '/dashboard' && isDemoAdmissionEntry(location.state);
 
   useEffect(() => {
     if (principal?.accountKind !== 'demo') return;
@@ -59,15 +56,7 @@ export function DemoContentGate({ children }: DemoContentGateProps): React.JSX.E
     return () => { active = false; };
   }, [principal?.accountKind, principal?.id, refreshKey]);
 
-  useEffect(() => {
-    if (principal?.accountKind !== 'demo' || !isInitialDemoEntry || copy?.state !== 'ready' || !copy.projectId || redirectedToPrivateProject.current) return;
-    redirectedToPrivateProject.current = true;
-    navigate(`/projects/${encodeURIComponent(copy.projectId)}`, { replace: true });
-  }, [copy, isInitialDemoEntry, navigate, principal?.accountKind]);
-
   if (principal?.accountKind !== 'demo') return <>{children}</>;
-  const openingPrivateProject = isInitialDemoEntry && copy?.state === 'ready' && copy.projectId !== null && !redirectedToPrivateProject.current;
-  if (openingPrivateProject) return <CopyOpeningProject />;
   if (loadState === 'loading') return <CopyPreparing />;
   if (loadState === 'error' || !copy) {
     return <CopyUnavailable onRefresh={refreshStatus} onSignOut={() => { void handleSignOut(); }} isSigningOut={isSigningOut} />;
@@ -125,17 +114,6 @@ export function DemoContentGate({ children }: DemoContentGateProps): React.JSX.E
   }
 }
 
-function CopyOpeningProject(): React.JSX.Element {
-  return (
-    <main className="mx-auto grid min-h-screen max-w-2xl content-center gap-4 px-4 py-10" data-testid="demo-copy-opening" aria-busy="true">
-      <p className="product-label">Private demo</p>
-      <h1 className="text-3xl font-semibold">Opening your private workspace</h1>
-      <p>Your private copy is ready. Opening it now.</p>
-      <Spinner label="Opening your private workspace" />
-    </main>
-  );
-}
-
 function CopyPreparing(): React.JSX.Element {
   return (
     <main className="mx-auto grid min-h-screen max-w-2xl content-center gap-4 px-4 py-10" data-testid="demo-copy-preparing" aria-busy="true">
@@ -147,10 +125,6 @@ function CopyPreparing(): React.JSX.Element {
       <Link className="text-[var(--color-link)] underline underline-offset-4" to="/showcase">View the read-only showcase</Link>
     </main>
   );
-}
-
-function isDemoAdmissionEntry(state: unknown): boolean {
-  return typeof state === 'object' && state !== null && 'demoAdmissionEntry' in state && state.demoAdmissionEntry === true;
 }
 
 interface CopyUnavailableProps {

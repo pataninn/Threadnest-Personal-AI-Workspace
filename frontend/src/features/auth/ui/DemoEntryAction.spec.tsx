@@ -104,7 +104,7 @@ describe('DemoEntryAction', () => {
     expect(mocks.createSession).toHaveBeenNthCalledWith(2, 'a'.repeat(43));
   });
 
-  it('opens a private workspace only after receiving the full demo session', async () => {
+  it('opens Home only after receiving the full demo session', async () => {
     mocks.getAvailability.mockResolvedValue({ available: true });
     mocks.createSession.mockResolvedValue({
       state: 'ready',
@@ -121,6 +121,6 @@ describe('DemoEntryAction', () => {
 
     expect(await screen.findByRole('heading', { name: 'Demo workspace' })).toBeInTheDocument();
     expect(screen.getByTestId('location-probe')).toHaveTextContent('/dashboard');
-    expect(screen.getByTestId('location-state')).toHaveTextContent('"demoAdmissionEntry":true');
+    expect(screen.getByTestId('location-state')).toHaveTextContent('null');
   });
 });
